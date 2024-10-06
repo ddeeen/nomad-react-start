@@ -21,7 +21,7 @@
 
     <script type="text/babel">
       const root = document.getElementById("root");
-      function App() {
+      function MinToHour() {
         const [amount, setAmount] = React.useState(0);
         const [flip, setFlip] = React.useState(false);
         function onChange(event) {
@@ -36,7 +36,6 @@
         };
         return (
           <div>
-            <h3>Super Converter</h3>
             <div>
               <label htmlFor="minutes">minutes</label>
               <input
@@ -63,6 +62,69 @@
                 <button onClick={onClickFlip}>Flip</button>
               </div>
             </div>
+          </div>
+        );
+      }
+      function KmToMiles() {
+        const [amount, setAmount] = React.useState(0);
+        const [flip, setFlip] = React.useState(false);
+        const onChangeKm = (event) => {
+          setAmount(event.target.value);
+        };
+        const onClickReset = () => {
+          setAmount(0);
+        };
+        const onClickFlip = () => {
+          onClickReset();
+          setFlip((current) => !current);
+        };
+        return (
+          <div>
+            <div>
+              <label for="km">Km</label>
+              <input
+                value={flip ? amount * 1.609344 : amount}
+                type="number"
+                id="km"
+                placeholder="km"
+                onChange={onChangeKm}
+                disabled={flip}
+              />
+            </div>
+            <div>
+              <label for="mile">Mile</label>
+              <input
+                value={flip ? amount : amount / 1.609344}
+                type="number"
+                id="mile"
+                placeholder="mile"
+                onChange={onChangeKm}
+                disabled={!flip}
+              />
+            </div>
+            <div>
+              <button onClick={onClickReset}>Reset</button>
+              <button onClick={onClickFlip}>Flip</button>
+            </div>
+          </div>
+        );
+      }
+      function App() {
+        const [option, setOption] = React.useState("xx");
+        const onChangeSelect = (event) => {
+          console.log("hi");
+          setOption(event.target.value);
+        };
+        return (
+          <div>
+            <h3>Super Converter</h3>
+            <select onChange={onChangeSelect} value={option}>
+              <option value="xx">Select Converter</option>
+              <option value="0">min/hour Converter</option>
+              <option value="1">km/miles Converter</option>
+            </select>
+            {option === "0" ? <MinToHour /> : null}
+            {option === "1" ? <KmToMiles /> : null}
           </div>
         );
       }
