@@ -22,25 +22,47 @@
     <script type="text/babel">
       const root = document.getElementById("root");
       function App() {
-        const [min, setMin] = React.useState();
+        const [amount, setAmount] = React.useState(0);
+        const [flip, setFlip] = React.useState(false);
         function onChange(event) {
-          setMin(event.target.value);
+          setAmount(event.target.value);
         }
+        const onClickReset = () => {
+          setAmount(0);
+        };
+        const onClickFlip = () => {
+          onClickReset();
+          setFlip((current) => !current);
+        };
         return (
           <div>
             <h3>Super Converter</h3>
-            <label htmlFor="minutes">minutes</label>
-            <input
-              value={min}
-              placeholder="minutes"
-              id="minutes"
-              type="number"
-              onChange={onChange}
-            />
-
-            <label htmlFor="hours">hours</label>
-            <input placeholder="hours" id="hours" type="number" />
-            <h3>You want to convert value: {min}</h3>
+            <div>
+              <label htmlFor="minutes">minutes</label>
+              <input
+                value={flip ? amount * 60 : amount}
+                placeholder="minutes"
+                id="minutes"
+                type="number"
+                onChange={onChange}
+                disabled={flip}
+              />
+            </div>
+            <div>
+              <label htmlFor="hours">hours</label>
+              <input
+                value={flip ? amount : Math.round(amount / 60)}
+                placeholder="hours"
+                id="hours"
+                type="number"
+                onChange={onChange}
+                disabled={!flip}
+              />
+              <div>
+                <button onClick={onClickReset}>Reset</button>
+                <button onClick={onClickFlip}>Flip</button>
+              </div>
+            </div>
           </div>
         );
       }
